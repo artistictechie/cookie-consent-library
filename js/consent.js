@@ -139,11 +139,15 @@ var dhCookieConsent = /*#__PURE__*/function () {
   function dhCookieConsent(settings) {
     _classCallCheck(this, dhCookieConsent);
 
+    // load settings
     var helper = new _helper_es6__WEBPACK_IMPORTED_MODULE_1__["dhHelper"]();
     this.settings = helper.extend(settings);
-    console.log(this.settings);
-    this.reset();
-    this.createConsentBox();
+    this.session = new _sessionHandler_es6__WEBPACK_IMPORTED_MODULE_0__["dhSessionHandler"](this.settings);
+
+    if (!this.session.isConsentGiven()) {
+      this.reset();
+      this.createConsentBox();
+    }
   }
 
   _createClass(dhCookieConsent, [{
@@ -187,6 +191,7 @@ var dhCookieConsent = /*#__PURE__*/function () {
   }, {
     key: "hideBox",
     value: function hideBox() {
+      this.session.setConsentAccepted();
       this.container.classList.add("dh_hide");
     }
   }]);
@@ -302,8 +307,8 @@ var dhCookies = /*#__PURE__*/function () {
   }
 
   _createClass(dhCookies, [{
-    key: "setCookie",
-    value: function setCookie(name, value, days) {
+    key: "set",
+    value: function set(name, value, path, days) {
       var expires = "";
 
       if (days) {
@@ -312,11 +317,11 @@ var dhCookies = /*#__PURE__*/function () {
         expires = "; expires=" + date.toUTCString();
       }
 
-      document.cookie = name + "=" + (value || "") + expires + "; path=/";
+      document.cookie = name + "=" + (value || "") + expires + "; path=" + path;
     }
   }, {
-    key: "getCookie",
-    value: function getCookie(name) {
+    key: "get",
+    value: function get(name) {
       var nameEQ = name + "=";
       var ca = document.cookie.split(';');
 
@@ -333,8 +338,8 @@ var dhCookies = /*#__PURE__*/function () {
       return null;
     }
   }, {
-    key: "eraseCookie",
-    value: function eraseCookie(name) {
+    key: "erase",
+    value: function erase(name) {
       document.cookie = name + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
     }
   }]);
@@ -373,7 +378,8 @@ var dhHelper = /*#__PURE__*/function () {
         position: "bottom_right",
         cookie: {
           domain: "/",
-          name: "cookie_consent"
+          name: "cookie_consent",
+          days: 30
         },
         border: {
           color: "",
@@ -419,11 +425,41 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _cookies_es6__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./cookies.es6 */ "./src/lib/cookies.es6");
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
 // import dependencies
 
-var dhSessionHandler = function dhSessionHandler() {
-  _classCallCheck(this, dhSessionHandler);
-};
+var dhSessionHandler = /*#__PURE__*/function () {
+  function dhSessionHandler(settings) {
+    _classCallCheck(this, dhSessionHandler);
+
+    this.cookie = new _cookies_es6__WEBPACK_IMPORTED_MODULE_0__["dhCookies"]();
+    this.cookieName = settings.cookie.name;
+    this.cookiePath = settings.cookie.path;
+    this.expireTime = settings.cookie.days;
+    this.cookieValue = "given";
+  }
+
+  _createClass(dhSessionHandler, [{
+    key: "isConsentGiven",
+    value: function isConsentGiven() {
+      if (this.cookie.get(this.cookieName)) {
+        return true;
+      }
+
+      return false;
+    }
+  }, {
+    key: "setConsentAccepted",
+    value: function setConsentAccepted() {
+      this.cookie.set(this.cookieName, this.cookieValue, this.cookiePath, this.expireTime);
+    }
+  }]);
+
+  return dhSessionHandler;
+}();
 
 /***/ }),
 
