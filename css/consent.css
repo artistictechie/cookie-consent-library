@@ -1,0 +1,89 @@
+:root {
+  --purple: #3B3646;
+  --red: #EE4B5A;
+}
+
+/* Cookie Dialog */
+#dh_cookie_consent {
+  position: fixed;
+  max-width: 550px;
+  background-color: var(--purple);
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 6px 6px rgba(0, 0, 0, 0.25);
+  margin-left: 30px;
+  font-family: system-ui;
+  z-index: 1000;
+}
+#dh_cookie_consent .dh_heading {
+  color: var(--red);
+  font-family: "Quicksand", sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+#dh_cookie_consent .dh_message {
+  color: white;
+  font-size: 15px;
+  line-height: 1.5em;
+}
+#dh_cookie_consent .dh_button_box {
+  margin-bottom: 0;
+  text-align: right;
+}
+#dh_cookie_consent .dh_privacy_link {
+  color: var(--red);
+  text-decoration: none;
+  font-size: 15px;
+  padding-bottom: 2px;
+  border-bottom: 1px dotted rgba(255, 255, 255, 0.75);
+  transition: all 0.3s ease-in;
+}
+#dh_cookie_consent .dh_privacy_link:hover {
+  color: white;
+  border-bottom-color: var(--red);
+  transition: all 0.3s ease-in;
+}
+#dh_cookie_consent .dh_accept_button {
+  border: none;
+  background: var(--red);
+  color: white;
+  font-family: "Quicksand", sans-serif;
+  font-size: 15px;
+  padding: 7px;
+  border-radius: 3px;
+  margin-left: 15px;
+  cursor: pointer;
+  transition: all 0.3s ease-in;
+}
+#dh_cookie_consent .dh_accept_button:hover {
+  background: white;
+  color: var(--red);
+  transition: all 0.3s ease-in;
+}
+#dh_cookie_consent.dh_bottom_left {
+  left: 30px;
+  bottom: 30px;
+}
+#dh_cookie_consent.dh_bottom_right {
+  right: 30px;
+  bottom: 30px;
+}
+#dh_cookie_consent.dh_top_right {
+  right: 30px;
+  top: 30px;
+}
+#dh_cookie_consent.dh_top_left {
+  left: 30px;
+  top: 30px;
+}
+
+.dh_hide {
+  display: none;
+}
+
+.dh_show {
+  display: block;
+}
+
+/*# sourceMappingURL=consent.css.map*/
