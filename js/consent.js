@@ -269,7 +269,7 @@ var dhContainer = /*#__PURE__*/function () {
 
       if (settings.button.color) {
         cssGen.addStyle("#dh_cookie_consent .dh_accept_button", "color", settings.button.color);
-        cssGen.addStyle("#dh_cookie_consent .dh_accept_button", "background", settings.button.color);
+        cssGen.addStyle("#dh_cookie_consent .dh_accept_button", "background", settings.button.background);
       }
 
       if (settings.link.color) {
@@ -542,7 +542,7 @@ var dhStyleGenerator = /*#__PURE__*/function () {
   }, {
     key: "addStyle",
     value: function addStyle($selector, $property, $value) {
-      this.style[$selector] = {};
+      this.style[$selector] = this.style[$selector] || {};
       this.style[$selector][$property] = $value;
     }
   }]);
